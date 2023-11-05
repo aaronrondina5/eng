@@ -16,3 +16,18 @@ def sum_consecutive(lo, hi):
 
 def sum_of_multiples_of_factor(factor, end):
     return factor * sum_consecutive(0, floor(end / factor))
+
+
+def reverse(val):
+    res = 0
+    x = val
+    while x > 0:
+        res = (res * 10) + (x % 10)  # add the 1s place value
+        x = int(x / 10)
+
+    return res
+
+
+def is_palindromic_number(val):
+    return val == reverse(val)
+
