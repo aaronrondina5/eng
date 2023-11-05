@@ -1,6 +1,6 @@
 import unittest
 
-from app.eulerproblems.largest_prime_factor import LargestPrimeFactor
+from app.algorithm.largest_prime_factor import LargestPrimeFactor
 
 
 class LargestPrimeFactorTest(unittest.TestCase):

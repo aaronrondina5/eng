@@ -1,6 +1,6 @@
 import unittest
 
-from app.eulerproblems.largest_palindrome_product import LargestPalindromeProduct
+from app.algorithm.largest_palindrome_product import LargestPalindromeProduct
 
 
 class LargestPalindromeProductTest(unittest.TestCase):
