@@ -124,6 +124,14 @@ class LargestPrimeFactor(Algorithm):
         super().__init__("LargestPrimeFactor")
 
     def decent(self, **kwargs):
+        """
+        - idea is to start a low prime numbers and move up
+        - if you divide prime factor as many times as you can, then you dont have to
+        worry about hitting non-primes later
+            - ie, you would never be able to divide by 9 if you had already divided all
+            the 3s out of the number
+        - you don't have to go higher than the sqrt(input) because that cant possibly be a factor
+        """
         # initialize to the value in case you cannot get any prime divisions
         largest = kwargs["val"]
         current = kwargs["val"]
@@ -136,6 +144,12 @@ class LargestPrimeFactor(Algorithm):
         return largest
 
     def optimal(self, **kwargs):
+        """
+        - the improvement here was suggested by euler's docs
+        - makes sense - you can increment twice as fast because you know you have removed all the evens
+        at first
+        - so similar to my solution, just with improvement
+        """
         val = kwargs["val"]
         largest = -1
 
@@ -159,10 +173,16 @@ class LargestPalindromeProduct(Algorithm):
         super().__init__("LargetsPalindromeProduct")
 
     def brute_force(self, **kwargs):
+        """
+        - thought about how to not do the following for a while
+        - this seems okay - we aren't duplicating checks by making sure y <= x
+        - was thinking of some way of using priority queues to make sure we always
+            get the highest product next, but it would probably be overkill
+        """
         res = -1
         for x in range(999, 99, -1):
-            for y in range(999, 99, -1):
-                if y <= x:  # prevent duplicate calculations
-                    if is_palindromic_number(x * y):
-                        res = max(res, x * y)
+            for y in range(x, 99, -1):  # by starting at x you aren't duplicating checks
+                if is_palindromic_number(x * y):
+                    res = max(res, x * y)
+
         return res
