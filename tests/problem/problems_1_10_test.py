@@ -1,83 +1,115 @@
 import unittest
 
-from app.problem.problems_1_10 import MultiplesThreeFive, LargestPrimeFactor, EvenFibonacciSum, \
-    LargestPalindromeProduct
+from app.problem.problems_1_10 import (
+    MultiplesThreeFiveBruteForce,
+    MultiplesThreeFiveOptimal,
+    LargestPrimeFactorDecent,
+    LargestPrimeFactorOptimal,
+    EvenFibonacciSumDecent,
+    EvenFibonacciSumOptimal,
+    LargestPalindromeProductBruteForce,
+    SmallestMultipleDecent
+)
 
 
 class MultiplesThreeFiveTests(unittest.TestCase):
     def test_end_on_shared_multiple(self):
-        algo = MultiplesThreeFive()
-        self.assertEqual(60, algo.brute_force(end_inclusive=15))
-        self.assertEqual(60, algo.optimal(end_inclusive=15))
+        bf_impl = MultiplesThreeFiveBruteForce()
+        opt_impl = MultiplesThreeFiveOptimal()
+        self.assertEqual(60, bf_impl.execute(end_inclusive=15))
+        self.assertEqual(60, opt_impl.execute(end_inclusive=15))
 
     def test_end_on_multiple_of_three(self):
-        algo = MultiplesThreeFive()
-        self.assertEqual(23, algo.brute_force(end_inclusive=9))
-        self.assertEqual(23, algo.optimal(end_inclusive=9))
+        bf_impl = MultiplesThreeFiveBruteForce()
+        opt_impl = MultiplesThreeFiveOptimal()
+        self.assertEqual(23, bf_impl.execute(end_inclusive=9))
+        self.assertEqual(23, opt_impl.execute(end_inclusive=9))
 
     def test_end_on_neither(self):
-        algo = MultiplesThreeFive()
-        self.assertEqual(33, algo.brute_force(end_inclusive=11))
-        self.assertEqual(33, algo.optimal(end_inclusive=11))
+        bf_impl = MultiplesThreeFiveBruteForce()
+        opt_impl = MultiplesThreeFiveOptimal()
+        self.assertEqual(33, bf_impl.execute(end_inclusive=11))
+        self.assertEqual(33, opt_impl.execute(end_inclusive=11))
 
     def test_actual_euler_question(self):
-        algo = MultiplesThreeFive()
-        self.assertEqual(233168, algo.brute_force(end_inclusive=999))
-        self.assertEqual(233168, algo.optimal(end_inclusive=999))
+        bf_impl = MultiplesThreeFiveBruteForce()
+        opt_impl = MultiplesThreeFiveOptimal()
+        self.assertEqual(233168, bf_impl.execute(end_inclusive=999))
+        self.assertEqual(233168, opt_impl.execute(end_inclusive=999))
 
 
 class EvenFibonacciSumTest(unittest.TestCase):
     def test_end_on_non_fib_number(self):
-        algo = EvenFibonacciSum()
-
+        dec_impl = EvenFibonacciSumDecent()
+        opt_impl = EvenFibonacciSumOptimal()
         # 1,2,3,5,8 => 2 + 8 = 10
-        self.assertEqual(10, algo.decent(max=10))
-        self.assertEqual(10, algo.optimal(max=10))
+        self.assertEqual(10, dec_impl.execute(max=10))
+        self.assertEqual(10, opt_impl.execute(max=10))
 
     def test_end_on_even_fib(self):
-        algo = EvenFibonacciSum()
+        dec_impl = EvenFibonacciSumDecent()
+        opt_impl = EvenFibonacciSumOptimal()
         # 1,2,3,5,8,13,21,34 => 2 + 8 + 34 = 44
-        self.assertEqual(44, algo.decent(max=35))
-        self.assertEqual(44, algo.optimal(max=35))
+        self.assertEqual(44, dec_impl.execute(max=35))
+        self.assertEqual(44, opt_impl.execute(max=35))
 
     def test_end_on_odd_fib(self):
-        algo = EvenFibonacciSum()
+        dec_impl = EvenFibonacciSumDecent()
+        opt_impl = EvenFibonacciSumOptimal()
         # 1,2,3,5,8,13,21,34,55 => 2 + 8 + 34 = 44
-        self.assertEqual(44, algo.decent(max=56))
-        self.assertEqual(44, algo.optimal(max=56))
+        self.assertEqual(44, dec_impl.execute(max=56))
+        self.assertEqual(44, opt_impl.execute(max=56))
 
     def test_actual_euler_question(self):
-        algo = EvenFibonacciSum()
-        self.assertEqual(4613732, algo.decent(max=4000000))
-        self.assertEqual(4613732, algo.optimal(max=4000000))
+        dec_impl = EvenFibonacciSumDecent()
+        opt_impl = EvenFibonacciSumOptimal()
+        self.assertEqual(4613732, dec_impl.execute(max=4000000))
+        self.assertEqual(4613732, opt_impl.execute(max=4000000))
 
 
 class LargestPrimeFactorTest(unittest.TestCase):
     def test_is_prime(self):
-        algo = LargestPrimeFactor()
-        self.assertEqual(17, algo.decent(val=17))
+        bf_impl = LargestPrimeFactorDecent()
+        opt_impl = LargestPrimeFactorOptimal()
+        self.assertEqual(17, bf_impl.execute(val=17))
+        self.assertEqual(17, opt_impl.execute(val=17))
 
     def test_even_with_two(self):
-        algo = LargestPrimeFactor()
-        self.assertEqual(2, algo.decent(val=8))
-        self.assertEqual(2, algo.decent(val=16))
-        self.assertEqual(2, algo.decent(val=32))
+        bf_impl = LargestPrimeFactorDecent()
+        opt_impl = LargestPrimeFactorOptimal()
+        self.assertEqual(2, bf_impl.execute(val=8))
+        self.assertEqual(2, bf_impl.execute(val=16))
+        self.assertEqual(2, bf_impl.execute(val=32))
+        self.assertEqual(2, opt_impl.execute(val=8))
+        self.assertEqual(2, opt_impl.execute(val=16))
+        self.assertEqual(2, opt_impl.execute(val=32))
 
     def test_not_prime(self):
-        algo = LargestPrimeFactor()
-        self.assertEqual(29, algo.decent(val=13195))
+        bf_impl = LargestPrimeFactorDecent()
+        opt_impl = LargestPrimeFactorOptimal()
+        self.assertEqual(29, bf_impl.execute(val=13195))
+        self.assertEqual(29, opt_impl.execute(val=13195))
 
     def test_actual_question(self):
-        algo = LargestPrimeFactor()
-        self.assertEqual(6857, algo.decent(val=600851475143))
-        self.assertEqual(6857, algo.optimal(val=600851475143))
+        bf_impl = LargestPrimeFactorDecent()
+        opt_impl = LargestPrimeFactorOptimal()
+        self.assertEqual(6857, bf_impl.execute(val=600851475143))
+        self.assertEqual(6857, opt_impl.execute(val=600851475143))
 
 
 class LargestPalindromeProductTest(unittest.TestCase):
 
     def test_brute_force(self):
-        algo = LargestPalindromeProduct()
-        self.assertEqual(906609, algo.brute_force())
+        algo = LargestPalindromeProductBruteForce()
+        self.assertEqual(906609, algo.execute())
+
+
+class SmallestMultipleTest(unittest.TestCase):
+
+    def test_decent(self):
+        dec_impl = SmallestMultipleDecent()
+        self.assertEqual(2520, dec_impl.execute(end=10))
+        self.assertEqual(27720, dec_impl.execute(end=11))
 
 
 if __name__ == "__main__":
