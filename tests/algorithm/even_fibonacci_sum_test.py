@@ -1,6 +1,6 @@
 import unittest
 
-from app.eulerproblems.even_fibonacci_sum import EvenFibonacciSum
+from app.algorithm.even_fibonacci_sum import EvenFibonacciSum
 
 
 class EvenFibonacciSumTest(unittest.TestCase):

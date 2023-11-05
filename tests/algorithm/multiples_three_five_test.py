@@ -1,6 +1,6 @@
 import unittest
 
-from app.eulerproblems.multiples_three_five import MultiplesThreeFive
+from app.algorithm.multiples_three_five import MultiplesThreeFive
 
 
 class MultiplesThreeFiveTests(unittest.TestCase):
