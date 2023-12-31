@@ -34,6 +34,9 @@ TEST(LargestGridProduct, dynamicProgramming)
         {20, 69, 36, 41, 72, 30, 23, 88, 34, 62, 99, 69, 82, 67, 59, 85, 74, 4, 36, 16},
         {20, 73, 35, 29, 78, 31, 90, 1, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 5, 54},
         {1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48}};
+    LargestGridProduct algo;
+    int result = algo.brute_force(grid, 4);
+    EXPECT_EQ(70600674, result);
 }
 
 TEST(LatticePaths, dynamicProgramming)
@@ -56,9 +59,9 @@ TEST(PythagoreanTriplet, answerTheQuestion)
     int answer[3];
     PythagoreanTriplet algo;
     algo.programmatically(answer, 1000);
-    EXPECT_EQ(answer[200], 5);
-    EXPECT_EQ(answer[375], 5);
-    EXPECT_EQ(answer[425], 5);
+    EXPECT_EQ(200, answer[0]);
+    EXPECT_EQ(375, answer[1]);
+    EXPECT_EQ(425, answer[2]);
 }
 
 TEST(SmallestMultipleTest, various) {
@@ -118,19 +121,19 @@ TEST(NumberMultiplesThreeOrFiveBetterTest, EndOnSharedMultiple)
 TEST(NumberMultiplesThreeOrFiveBetterTest, EndOnMultipleOfThree)
 {
     MultiplesThreeFive algo;
-    EXPECT_EQ(algo.with_math(9), 23); // 3 + 5 + 6 + 9
+    EXPECT_EQ(23, algo.with_math(9));
 }
 
 TEST(NumberMultiplesThreeOrFiveBetterTest, EndOnNeither)
 {
     MultiplesThreeFive algo;
-    EXPECT_EQ(algo.with_math(11), 33); // 3 + 5 + 6 + 9 + 10
+    EXPECT_EQ(33, algo.with_math(11));
 }
 
 TEST(NumberMultiplesThreeOrFiveBetterTest, ActualEulerQuestion)
 {
     MultiplesThreeFive algo;
-    EXPECT_EQ(algo.with_math(999), 233168);
+    EXPECT_EQ(233168, algo.with_math(999));
 }
 
 } // euler

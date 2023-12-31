@@ -26,9 +26,8 @@ public:
 class LargestGridProduct
 {
 public:
-    int dynamic_programming(const std::vector<std::vector<int>>& grid, int segment_length) const;
+    int brute_force(const std::vector<std::vector<int>>& grid, int segment_length) const;
 };
-
 
 class PythagoreanTriplet
 {

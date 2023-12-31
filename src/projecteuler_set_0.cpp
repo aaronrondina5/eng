@@ -3,6 +3,7 @@
 #include "math_util.h"
 
 // std
+#include <climits>
 #include <cmath>
 #include <iostream>
 #include <vector>
@@ -69,16 +70,21 @@ long long LatticePaths::combinatorics(int m, int n) const
     throw std::runtime_error("TODO: the combinatorics for this!");
 }
 
-int LargestGridProduct::dynamic_programming(const std::vector<std::vector<int>>& grid, int segment_length) const
+int LargestGridProduct::brute_force(const std::vector<std::vector<int>>& grid, int segment_length) const
 {
     /**
-     * Seems like you can just move along the grid and keep track of the products (divide when surpassing segment length)
-     * 2 passes? 
      * 
-     * 1 pass from top to bottom, left to right that can handle the horizontal, vertical and top-left to bottom-right diagonal
-     * 2nd pass from top to bottom, RIGHT to LEFT that can handle the opposite diagonal. 
+     * Initially thought about caching the products, but this breaks down with the 0s, because we lose 
+     * the record.
      * 
-     * Idk if this is the best way, but seems okay!
+     * like if we go from a sequence of 0, 1, 2, 3 our cache is at 0. Then
+     * we move on to the next and we need to know 1,2,3 * next but we only have 0 in the cache.
+     * 
+     * Would have been nice though.
+     * 
+     * 
+     * Time O(m x n x segment_length)
+     * Space O(1)
     */
     if(segment_length == 0)
     {
@@ -90,31 +96,59 @@ int LargestGridProduct::dynamic_programming(const std::vector<std::vector<int>>&
 
     int result = 0;
 
-    // this will cache the products from the horizontal, vertical and 2 diagonals
-    std::vector<std::vector<std::vector<int>>> horizontal_vertical_cache(m, std::vector<std::vector<int>>(n, std::vector<int>(4, 0)));
-
-    // first pass, at each index, calculate the horizontal, vertical and main diagonal product
     for(int row = 0; row < m; ++row)
     {
         for(int col = 0; col < n; ++col)
         {
-            if(col > 0)
+            // if horizontal segment long enough, compute and compare
+            // We can only compare at this point, because of the possibility of negative values.
+            // for example, say a we have segment_length = 4 and our 3 values are a max. Sounds good right?
+            // but if the next value is negative, then we really dont have a max.
+            if(col >= segment_length - 1)
             {
-                // can calculate the value
-                int horizontal_product = grid[row][col - 1] * grid[row][col];
-                // if the column has surpassed the necessary segment_length, then divide
-                // also check if we need to update the max
-                if(col > segment_length - 1)
+                int horizontal_product = grid[row][col];
+                for(int i = 1; i < segment_length; ++i)
                 {
-                    horizontal_product /= grid[row][col - segment_length];
+                    horizontal_product *= grid[row][col - i];
                 }
-                horizontal_vertical_cache[row][col][0] = horizontal_product;
+                result = std::max(horizontal_product, result);
+            }
+
+            // if vertical segment long enough, compute and compare
+            if(row >= segment_length - 1)
+            {
+                int vertical_product = grid[row][col];
+                for(int i = 1; i < segment_length; ++i)
+                {
+                    vertical_product *= grid[row - i][col];
+                }
+                result = std::max(vertical_product, result);
+            }
+
+            // if diagonal segment long enough, compute and compare
+            if(row >= segment_length - 1 && col >= segment_length - 1)
+            {
+                int diagonal_product = grid[row][col];
+                for(int i = 1; i < segment_length; ++i)
+                {
+                    diagonal_product *= grid[row - i][col - i];
+                }
+                result = std::max(diagonal_product, result);
+            }
+
+            // if anti-diagonal segment long enough, compute and compare
+            if(row >= segment_length - 1 && n - col >= segment_length)
+            {
+                int antidiagonal_product = grid[row][col];
+                for(int i = 1; i < segment_length; ++i)
+                {
+                    antidiagonal_product *= grid[row - i][col + i];
+                }
+                result = std::max(antidiagonal_product, result);
             }
         }
     }
 
-    // TODO NEED TO COMPLETE
-    
     return result;
 }
 
@@ -148,7 +182,7 @@ void PythagoreanTriplet::programmatically(int* result, int sum_equals) const
         {
             if(squares[start_window] + squares[end_window] == squares[i])
             {
-                std::cout << "found a pythagorean triplet" << "a=" << start_window << " b=" << end_window << " c=" << i << std::endl;
+                // found a pythagorean triplet
                 if(start_window + end_window + i == sum_equals)
                 {
                     result[0] = start_window;
