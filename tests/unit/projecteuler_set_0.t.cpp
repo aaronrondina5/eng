@@ -44,7 +44,7 @@ TEST(LargestProductSeries, answer)
         "05886116467109405077541002256983155200055935729725"
         "71636269561882670428252483600823257530420752963450";
     LargestProductInSeries algo;
-    EXPECT_EQ(2128707641, algo.greedy(series, 13));
+    EXPECT_EQ(23514624000, algo.greedy(series, 13));
 }
 
 TEST(LargestGridProduct, bruteForce)
