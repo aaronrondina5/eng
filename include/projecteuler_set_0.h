@@ -29,6 +29,14 @@ public:
     int dynamic_programming(const std::vector<std::vector<int>>& grid, int segment_length) const;
 };
 
+
+class PythagoreanTriplet
+{
+public:
+    void programmatically(int* result, int sum_equals) const;
+    void mathematically(int* result, int sum_equals) const;
+};
+
 /**
  * https://projecteuler.net/problem=6
 */

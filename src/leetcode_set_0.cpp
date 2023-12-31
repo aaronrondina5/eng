@@ -11,28 +11,27 @@ namespace arondina
 namespace eng
 {
 
-int MinLengthSubArraySum::min_sub_array_len(int target, const std::vector<int>& nums) const
+int LargestSubstringBetweenChars::execute(const std::string& input) const
 {
-    // so move along the array, keep the total
-    // if you breach the value, then increment left pointer
-
-    int min_sub_len = INT_MAX;
-    int l_window = 0;
-    int curr_sum = 0;
-    for(int r_window = 0; r_window < nums.size(); ++r_window)
+    /**
+     * could just keep track of the first index for a character &
+     * update the max.
+    */
+    std::vector<int> char_last_indexes(26, -1);
+    int res = -1;
+    for(int i = 0; i < input.size(); ++i)
     {
-        curr_sum += nums[r_window];
-
-        while(curr_sum >= target)
+        int char_index = input[i] - 'a';
+        if(char_last_indexes[char_index] > -1)
         {
-            min_sub_len = std::min(min_sub_len, r_window - l_window + 1);
-            curr_sum -= nums[l_window];
-            ++l_window;
+            res = std::max(res, i - char_last_indexes[char_index] - 1);
         }
-
+        else
+        {
+            char_last_indexes[char_index] = i;
+        }
     }
-
-    return min_sub_len == INT_MAX ? 0 : min_sub_len;
+    return res;
 }
 
 std::vector<int> AsteroidCollision::determine_final_state(std::vector<int>& asteroids) const
@@ -90,6 +89,30 @@ std::vector<int> AsteroidCollision::determine_final_state(std::vector<int>& aste
     }
 
     return stack_asteroids;
+}
+
+int MinLengthSubArraySum::min_sub_array_len(int target, const std::vector<int>& nums) const
+{
+    // so move along the array, keep the total
+    // if you breach the value, then increment left pointer
+
+    int min_sub_len = INT_MAX;
+    int l_window = 0;
+    int curr_sum = 0;
+    for(int r_window = 0; r_window < nums.size(); ++r_window)
+    {
+        curr_sum += nums[r_window];
+
+        while(curr_sum >= target)
+        {
+            min_sub_len = std::min(min_sub_len, r_window - l_window + 1);
+            curr_sum -= nums[l_window];
+            ++l_window;
+        }
+
+    }
+
+    return min_sub_len == INT_MAX ? 0 : min_sub_len;
 }
 
 int KokoEatingBananas::min_eating_speed(const std::vector<int>& piles, int hours_to_eat)

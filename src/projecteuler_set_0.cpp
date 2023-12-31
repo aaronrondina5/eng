@@ -66,7 +66,7 @@ long long LatticePaths::combinatorics(int m, int n) const
      * 
      * So we need to figure out the number of combinations to do this.
     */
-    throw std::runtime_error("learn the combinatorics for this!");
+    throw std::runtime_error("TODO: the combinatorics for this!");
 }
 
 int LargestGridProduct::dynamic_programming(const std::vector<std::vector<int>>& grid, int segment_length) const
@@ -118,6 +118,68 @@ int LargestGridProduct::dynamic_programming(const std::vector<std::vector<int>>&
     return result;
 }
 
+void PythagoreanTriplet::programmatically(int* result, int sum_equals) const
+{
+    /**
+     * Need to check triplets. First need to get the viable triplets.
+     * Could loop through 1 through 1001 and store the triplets
+     * in a 1-indexed vector.
+     * 
+     * Then, you need to compare all candidates to see if there are 
+     * 2 values in the array that sum to the candidate.
+     * 
+     * Since it is sorted, you can used a sliding window from 1 to candidate - 1
+     * to see if you can add to this value
+    */
+    std::vector<int> squares(sum_equals, 0);
+    for(int i = 1; i < sum_equals + 1; ++i)
+    {
+        squares[i] = i * i;
+    }
+
+    // loop through our possible values for c^2
+    for(int i = 3; i < sum_equals + 1; ++i)
+    {
+        // sliding window on the previous values to see if we get a match
+        int start_window = 1;
+        int end_window = i - 1;
+
+        while(start_window < end_window)
+        {
+            if(squares[start_window] + squares[end_window] == squares[i])
+            {
+                std::cout << "found a pythagorean triplet" << "a=" << start_window << " b=" << end_window << " c=" << i << std::endl;
+                if(start_window + end_window + i == sum_equals)
+                {
+                    result[0] = start_window;
+                    result[1] = end_window;
+                    result[2] = i;
+                    return;
+                }
+                start_window++;
+                end_window++;
+            }
+            else
+            {
+                if(squares[start_window] + squares[end_window] > squares[i])
+                {
+                    // too large
+                    end_window--;
+                }
+                else
+                {
+                    // too small
+                    start_window++;
+                }
+            }
+        }
+    }
+}
+
+void PythagoreanTriplet::mathematically(int* result, int sum_equals) const
+{
+    throw std::runtime_error("TODO: look up the euclid paramaterized triplets stuff");
+}
 
 int SumSquareDifference::with_loop(int limit_inclusive) const
 {
