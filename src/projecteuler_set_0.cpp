@@ -136,6 +136,7 @@ int LargestGridProduct::brute_force(const std::vector<std::vector<int>>& grid, i
      * But probably too much for this.
      * 
      * 
+     * 
      * Time O(m x n x segment_length)
      * Space O(1)
     */
@@ -209,11 +210,11 @@ void PythagoreanTriplet::programmatically(int* result, int sum_equals) const
 {
     /**
      * Need to check triplets. First need to get the viable triplets.
-     * Could loop through 1 through 1001 and store the triplets
+     * Could loop through 1 through 1001 and store the squared values
      * in a 1-indexed vector.
      * 
-     * Then, you need to compare all candidates to see if there are 
-     * 2 values in the array that sum to the candidate.
+     * Then, you need to compare all candidates in the squared-values vector
+     *  to see if there are 2 values in the array that sum to the candidate.
      * 
      * Since it is sorted, you can used a sliding window from 1 to candidate - 1
      * to see if you can add to this value
@@ -238,16 +239,21 @@ void PythagoreanTriplet::programmatically(int* result, int sum_equals) const
                 // found a pythagorean triplet
                 if(start_window + end_window + i == sum_equals)
                 {
+                    // found a result
                     result[0] = start_window;
                     result[1] = end_window;
                     result[2] = i;
+
                     return;
                 }
+
+                // continue the search
                 start_window++;
                 end_window++;
             }
             else
             {
+                // decrement the window
                 if(squares[start_window] + squares[end_window] > squares[i])
                 {
                     // too large
