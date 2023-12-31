@@ -7,12 +7,64 @@
 #include <cmath>
 #include <iostream>
 #include <vector>
+#include <string>
 #include <stdexcept>
 
 namespace arondina
 {
 namespace eng
 {
+
+long long LargestProductInSeries::greedy(const std::string& series, int segment_length) const
+{
+    /**
+     * Similar to largest grid product, cacheing fails us when we hit zeroes.
+     * But lets try to cache anyway, and do the back calculation only if we hit a zero.
+     * 
+     * Time O(n) in the best case O(n x segment_length) in worst case
+     * 
+     * Space O(1)
+    */
+    int n = series.size();
+    if (n < segment_length || segment_length == 0) {
+        return 0;
+    }
+
+    long long result = 0;
+    long long current_product = 1;
+
+    for(int i = 0; i < n; ++i)
+    {
+        int value = series[i] - '0';
+        current_product *= value;
+
+        if(i > segment_length - 1)
+        {
+            int excluded_value = series[i - segment_length] - '0';
+            if(excluded_value == 0)
+            {
+                // go back and recomput the values
+                current_product = 1;
+                for(int j = i - segment_length + 1; j <= i; ++j)
+                {
+                    current_product *= (series[j] - '0');
+                }
+            }
+            else
+            {
+                // we need to divide
+                current_product /= excluded_value;
+            }
+        }
+
+        if(i >= segment_length - 1)
+        {
+            result = std::max(result, current_product);
+        }
+    }
+
+    return result;
+}
 
 long long LatticePaths::dynamic_programming(int m, int n) const
 {
@@ -80,7 +132,8 @@ int LargestGridProduct::brute_force(const std::vector<std::vector<int>>& grid, i
      * like if we go from a sequence of 0, 1, 2, 3 our cache is at 0. Then
      * we move on to the next and we need to know 1,2,3 * next but we only have 0 in the cache.
      * 
-     * Would have been nice though.
+     * Could be an optimization still. And only do the back calculation if you hit a zero.
+     * But probably too much for this.
      * 
      * 
      * Time O(m x n x segment_length)
@@ -94,7 +147,7 @@ int LargestGridProduct::brute_force(const std::vector<std::vector<int>>& grid, i
     int m = grid.size();
     int n = grid[0].size();
 
-    int result = 0;
+    int result = INT_MIN;
 
     for(int row = 0; row < m; ++row)
     {

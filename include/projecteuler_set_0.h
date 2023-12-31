@@ -3,6 +3,7 @@
 
 
 // std
+#include <string>
 #include <vector>
 
 namespace arondina
@@ -29,11 +30,23 @@ public:
     int brute_force(const std::vector<std::vector<int>>& grid, int segment_length) const;
 };
 
+/**
+ * https://projecteuler.net/problem=9
+*/
 class PythagoreanTriplet
 {
 public:
     void programmatically(int* result, int sum_equals) const;
     void mathematically(int* result, int sum_equals) const;
+};
+
+/**
+ * https://projecteuler.net/problem=8
+*/
+class LargestProductInSeries
+{
+public:
+    long long greedy(const std::string& series, int segment_length) const;
 };
 
 /**

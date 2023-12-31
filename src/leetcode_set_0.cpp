@@ -3,6 +3,7 @@
 
 // std
 #include <algorithm>
+#include <climits>
 #include <string>
 #include <vector>
 
