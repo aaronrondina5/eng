@@ -12,6 +12,64 @@ namespace arondina
 namespace eng
 {
 
+bool CourseSchedule::can_finish(int num_courses, const std::vector<std::vector<int>>& prerequisites) const
+{
+    /**
+     * so need to build a graph here that tells us if we can finish.
+     * The way we couldnt finish is if we have a cycle.
+     * 
+     * So if course 1 depends on finishing course 2 which depends on 3 which depends on 1 for example.
+     * 
+     * So we need to build up our graph, and then DFS for cycles.
+     * 
+     * We also need to figure out what is the "top" of the graph.
+    */
+    
+    // build graph
+    std::vector<std::vector<int>> adjacency_matrix(num_courses, std::vector<int>());
+    for(const auto& prerequisite : prerequisites)
+    {
+        adjacency_matrix[prerequisite[1]].emplace_back(prerequisite[0]);
+    }
+
+    // loop through the top values of the graph and check for cycles
+    std::vector<bool> visited(num_courses, false);
+    std::vector<bool> in_path(num_courses, false);
+
+    for(int course = 0; course < num_courses; ++course)
+    {
+        if(!visited[course] && cycle_exists(course, visited, in_path, adjacency_matrix))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool CourseSchedule::cycle_exists(int node
+    , std::vector<bool>& visited
+    , std::vector<bool>& in_path
+    , const std::vector<std::vector<int>>& graph) const
+{
+    visited[node] = true;
+    in_path[node] = true;
+
+    for(const int& neighbor : graph[node])
+    {
+        if(in_path[neighbor])
+        {
+            return true;
+        }
+        if(!visited[neighbor] && cycle_exists(neighbor, visited, in_path, graph))
+        {
+            return true;
+        }
+    }
+
+    in_path[node] = false;
+    return false;
+}
+
 int LargestSubstringBetweenChars::execute(const std::string& input) const
 {
     /**

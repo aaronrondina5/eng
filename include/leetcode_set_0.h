@@ -51,6 +51,20 @@ public:
 };
 
 /**
+ * 207.
+*/
+class CourseSchedule
+{
+public:
+    bool can_finish(int num_courses, const std::vector<std::vector<int>>& prerequisites) const;
+private:
+    bool cycle_exists(int node
+        , std::vector<bool>& visited
+        , std::vector<bool>& in_path
+        , const std::vector<std::vector<int>>& graph) const
+}
+
+/**
  * 17. https://leetcode.com/problems/letter-combinations-of-a-phone-number/
 */
 class LetterCombinationsInPhone
