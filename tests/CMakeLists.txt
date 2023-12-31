@@ -18,7 +18,7 @@ enable_testing()
 set(TEST_SOURCES
 
   unit/math_util.t.cpp
-  unit/project_euler_problem_set_0.t.cpp
+  unit/projecteuler_set_0.t.cpp
 
 )
 
