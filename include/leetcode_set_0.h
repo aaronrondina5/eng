@@ -13,6 +13,15 @@ namespace eng
 {
 
 /**
+ * 2453. https://leetcode.com/problems/destroy-sequential-targets/
+*/
+class DestroySequentialTargets
+{
+public:
+    int first_approach(std::vector<int>&& nums, int space) const;
+};
+
+/**
  * 1624. https://leetcode.com/problems/largest-substring-between-two-equal-characters/
 */
 class LargestSubstringBetweenChars
@@ -51,7 +60,7 @@ public:
 };
 
 /**
- * 207.
+ * 207. https://leetcode.com/problems/course-schedule/
 */
 class CourseSchedule
 {
@@ -61,8 +70,8 @@ private:
     bool cycle_exists(int node
         , std::vector<bool>& visited
         , std::vector<bool>& in_path
-        , const std::vector<std::vector<int>>& graph) const
-}
+        , const std::vector<std::vector<int>>& graph) const;
+};
 
 /**
  * 17. https://leetcode.com/problems/letter-combinations-of-a-phone-number/

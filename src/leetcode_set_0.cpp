@@ -5,12 +5,57 @@
 #include <algorithm>
 #include <climits>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 namespace arondina
 {
 namespace eng
 {
+
+int DestroySequentialTargets::first_approach(std::vector<int>&& nums, int space) const
+{
+    // keep track of the counts of the mods
+    std::unordered_map<int, int> mod_counts;
+    for(int i = 0; i < nums.size(); ++i)
+    {
+        ++mod_counts[nums[i] % space];
+    }
+
+    // determine the highest count
+    auto max_pair_it = std::max_element(
+        mod_counts.begin(), mod_counts.end(),
+        [](const std::pair<int, int>& a, const std::pair<int, int>& b) {
+            return a.second < b.second;
+        }
+    );
+    int highest_mod_count = max_pair_it->second;
+
+    // determine all the viable mods that equal the highest count
+    std::unordered_set<int> mod_check;
+    for(auto it = mod_counts.begin(); it != mod_counts.end(); ++it)
+    {
+        if(it->second == highest_mod_count)
+        {
+            mod_check.insert(it->first);
+        }
+    }
+
+    // O(nlogn)
+    std::sort(nums.begin(), nums.end());
+    for(int i = 0; i < nums.size(); ++i)
+    {
+        int mod = nums[i] % space;
+        if(mod_check.find(mod) != mod_check.end())
+        {
+            return nums[i];
+        }
+    }
+
+    // should never get here
+    return -1;
+}
+
 
 bool CourseSchedule::can_finish(int num_courses, const std::vector<std::vector<int>>& prerequisites) const
 {
