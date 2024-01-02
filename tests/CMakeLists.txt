@@ -18,11 +18,7 @@ enable_testing()
 set(TEST_SOURCES
   
   unit/math_util.t.cpp
-<<<<<<< HEAD
-  unit/projecteuler_set_0.t.cpp
-=======
   unit/projecteuler_set_1_20.t.cpp
->>>>>>> baa156d (Project Euler #12)
   unit/std_data_structures.t.cpp
 
 )
