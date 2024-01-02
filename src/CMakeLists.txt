@@ -2,9 +2,8 @@
 
 add_library(arondinaeng 
 
-    leetcode_set_0.cpp
     math_util.cpp
-    projecteuler_set_0.cpp
+    projecteuler_set_1_20.cpp
 
 )
 
