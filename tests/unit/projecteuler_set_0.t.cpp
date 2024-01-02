@@ -13,6 +13,27 @@ namespace arondina
 namespace eng
 {
 
+TEST(HighlyDivisibleTrangular, optimalSmallValues)
+{
+    HighlyDivisibleTrangular algo;
+    EXPECT_EQ(28, algo.optimal(5));
+    EXPECT_EQ(36, algo.optimal(6));
+    EXPECT_EQ(36, algo.optimal(7));
+}
+
+TEST(HighlyDivisibleTrangular, optimalAnswer)
+{
+    HighlyDivisibleTrangular algo;
+    EXPECT_EQ(76576500, algo.optimal(500));
+}
+
+TEST(HighlyDivisibleTrangular, bruteForce)
+{
+    HighlyDivisibleTrangular algo;
+    EXPECT_EQ(28, algo.brute_force(5));
+    EXPECT_EQ(76576500, algo.brute_force(500));
+}
+
 TEST(LargestProductSeries, testValues)
 {
     const std::string series = "012340340333";

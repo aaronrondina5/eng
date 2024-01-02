@@ -6,6 +6,7 @@
 #include <climits>
 #include <string>
 #include <unordered_set>
+#include <map>
 #include <vector>
 
 namespace arondina

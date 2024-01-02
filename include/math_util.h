@@ -3,7 +3,6 @@
 
 
 // std
-#include <vector>
 
 namespace arondina
 {
@@ -22,6 +21,8 @@ int sum_of_multiples_of_factor(int factor, int end_inclusive);
 int reverse(int value);
 
 bool is_palindromic_number(int value);
+
+int get_number_divisors(int value);
 
 }
 

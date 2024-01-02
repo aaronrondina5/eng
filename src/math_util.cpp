@@ -2,6 +2,9 @@
 
 
 // std
+#include <iostream>
+#include <cmath>
+#include <vector>
 
 namespace arondina
 {
@@ -47,6 +50,27 @@ bool is_palindromic_number(int val) {
     return val == reverse(val);
 }
 
+int get_number_divisors(int value)
+{
+    int square_root = static_cast<int>(std::sqrt(value));
+    int number_divisors = 0;
+
+    for(int i = 1; i <= square_root; ++i)
+    {
+        if(value % i == 0)
+        {
+            number_divisors+=2;
+        }
+    };
+
+    // if it was a perfect square, you need to subtract one of the divisors
+    if(square_root * square_root == value)
+    {
+        --number_divisors;
+    }
+
+    return number_divisors;
+}
 
 }
 

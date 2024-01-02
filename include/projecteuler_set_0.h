@@ -22,6 +22,16 @@ public:
 };
 
 /**
+ * https://projecteuler.net/problem=12
+*/
+class HighlyDivisibleTrangular
+{
+public:
+    long long brute_force(int min_divisors) const;
+    long long optimal(int min_divisors) const;
+};
+
+/**
  * https://projecteuler.net/problem=11
 */
 class LargestGridProduct

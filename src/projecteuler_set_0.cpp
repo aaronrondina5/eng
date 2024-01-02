@@ -15,6 +15,77 @@ namespace arondina
 namespace eng
 {
 
+long long HighlyDivisibleTrangular::brute_force(int min_divisors) const
+{
+    /**
+     * just move up on triangular numbers,
+     * check the number of divisors and return first value
+    */
+    int n = 1;
+
+    while(true)
+    {
+        // simply the average times the number of terms
+        long long triangular_number = n * (n + 1) / 2;
+
+        if(MathUtil::get_number_divisors(triangular_number) > min_divisors)
+        {
+            return triangular_number;
+        }
+
+        ++n;
+    }
+
+    return -1;
+}
+
+long long HighlyDivisibleTrangular::optimal(int min_divisors) const
+{
+    /**
+     * so we can use the fact that our nth triangular number is equal to
+     * n * (n + 1) / 2 and reduce our divisors calculations
+     * 
+     * Notice the interesting thing that a number n and n + 1 share no common divisors
+     * besides 1. They are called coprimes. Think about it - if there were a common divisor greater than 1,
+     * it would have to be n + 2 or higher.
+     * 
+     * therefore, the divisors of triangular_number is the divisors of n multiplied by the divisors of n + 1
+     * and handling whichever number is even(divide that by 2 and fetch divisors).
+     * 
+     * Small improvement to cache the divisors calculated n+1
+     * 
+    */
+
+    std::vector<int> divisors_cache{0, 1};
+
+    int n = 1;
+
+    while(true)
+    {
+        divisors_cache.emplace_back(MathUtil::get_number_divisors(n + 1));
+
+        int divisors = 1;
+        if(n % 2 == 0)
+        {
+            // n is even, lets divide its divisors by 2, then multiply for combinations of n + 1 divisors
+            divisors = divisors_cache[n / 2] * divisors_cache[n + 1];
+        }
+        else
+        {
+            divisors =  divisors_cache[n] * divisors_cache[(n + 1)  / 2];
+        }
+
+        if(divisors > min_divisors)
+        {
+            return n * (n + 1) / 2;
+        }
+
+        ++n;
+    }
+
+    return -1;
+}
+
 long long LargestProductInSeries::greedy(const std::string& series, int segment_length) const
 {
     /**

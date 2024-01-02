@@ -20,6 +20,7 @@ set(TEST_SOURCES
   unit/leetcode_set_0.t.cpp
   unit/math_util.t.cpp
   unit/projecteuler_set_0.t.cpp
+  unit/std_data_structures.t.cpp
 
 )
 
