@@ -1,2 +1,2 @@
 # eng
-random eng problems from euler, leetcode, etc.
+computational engineering problems from euler. will maybe add other problems as well.

@@ -1,4 +1,4 @@
-#include "projecteuler_set_0.h"
+#include "projecteuler_set_1_20.h"
 
 #include "math_util.h"
 
@@ -14,6 +14,62 @@ namespace arondina
 {
 namespace eng
 {
+
+long long LatticePaths::dynamic_programming(int m, int n) const
+{
+    /**
+     * So you always will take the same number of steps down and to the right
+     * if its a m x n graph, you will take m steps down, and n steps to the right,
+     * no matter what path you take.
+     * 
+     * the question is calling 2x2 grid a graph of 3x3 points.
+     * so naive approach, we could just backtrack with all the paths.
+     * 
+     * A better approach is to use DP to do it.
+     * 
+     * A possible improvement to this dynamic programming method is 
+     * to only use 1 half of the matrix because it is symmetrical across
+     * the diagonal.
+     *
+    */
+
+    if(m == 0 || n == 0)
+    {
+        return 0;
+    }
+
+    std::vector<std::vector<long long>> dp(m + 1, std::vector<long long>(n + 1, 0));
+    // so you can skip the first row & col and dont have to do a check each time
+    for(int row = 0; row <= m; ++row)
+    {
+        dp[row][0] = 1;
+    }
+    for(int col = 0; col <= n; ++col)
+    {
+        dp[0][col] = 1;
+    }
+
+    for(int row = 1; row <= m; ++row)
+    {
+        for(int col = 1; col <= n; ++col)
+        {
+            dp[row][col] = dp[row][col - 1] + dp[row - 1][col];
+        }
+    }
+
+    return dp[m][n];
+}
+
+long long LatticePaths::combinatorics(int m, int n) const
+{
+    /**
+     * As mentioned above, you will be taking m steps down and
+     * n steps to the right, always. 
+     * 
+     * So we need to figure out the number of combinations to do this.
+    */
+    throw std::runtime_error("TODO: the combinatorics for this!");
+}
 
 long long HighlyDivisibleTrangular::brute_force(int min_divisors) const
 {
@@ -84,113 +140,6 @@ long long HighlyDivisibleTrangular::optimal(int min_divisors) const
     }
 
     return -1;
-}
-
-long long LargestProductInSeries::greedy(const std::string& series, int segment_length) const
-{
-    /**
-     * Similar to largest grid product, cacheing fails us when we hit zeroes.
-     * But lets try to cache anyway, and do the back calculation only if we hit a zero.
-     * 
-     * Time O(n) in the best case O(n x segment_length) in worst case
-     * 
-     * Space O(1)
-    */
-    int n = series.size();
-    if (n < segment_length || segment_length == 0) {
-        return 0;
-    }
-
-    long long result = 0;
-    long long current_product = 1;
-
-    for(int i = 0; i < n; ++i)
-    {
-        int value = series[i] - '0';
-        current_product *= value;
-
-        if(i > segment_length - 1)
-        {
-            int excluded_value = series[i - segment_length] - '0';
-            if(excluded_value == 0)
-            {
-                // go back and recomput the values
-                current_product = 1;
-                for(int j = i - segment_length + 1; j <= i; ++j)
-                {
-                    current_product *= (series[j] - '0');
-                }
-            }
-            else
-            {
-                // we need to divide
-                current_product /= excluded_value;
-            }
-        }
-
-        if(i >= segment_length - 1)
-        {
-            result = std::max(result, current_product);
-        }
-    }
-
-    return result;
-}
-
-long long LatticePaths::dynamic_programming(int m, int n) const
-{
-    /**
-     * So you always will take the same number of steps down and to the right
-     * if its a m x n graph, you will take m steps down, and n steps to the right,
-     * no matter what path you take.
-     * 
-     * the question is calling 2x2 grid a graph of 3x3 points.
-     * so naive approach, we could just backtrack with all the paths.
-     * 
-     * A better approach is to use DP to do it.
-     * 
-     * A possible improvement to this dynamic programming method is 
-     * to only use 1 half of the matrix because it is symmetrical across
-     * the diagonal.
-     *
-    */
-
-    if(m == 0 || n == 0)
-    {
-        return 0;
-    }
-
-    std::vector<std::vector<long long>> dp(m + 1, std::vector<long long>(n + 1, 0));
-    // so you can skip the first row & col and dont have to do a check each time
-    for(int row = 0; row <= m; ++row)
-    {
-        dp[row][0] = 1;
-    }
-    for(int col = 0; col <= n; ++col)
-    {
-        dp[0][col] = 1;
-    }
-
-    for(int row = 1; row <= m; ++row)
-    {
-        for(int col = 1; col <= n; ++col)
-        {
-            dp[row][col] = dp[row][col - 1] + dp[row - 1][col];
-        }
-    }
-
-    return dp[m][n];
-}
-
-long long LatticePaths::combinatorics(int m, int n) const
-{
-    /**
-     * As mentioned above, you will be taking m steps down and
-     * n steps to the right, always. 
-     * 
-     * So we need to figure out the number of combinations to do this.
-    */
-    throw std::runtime_error("TODO: the combinatorics for this!");
 }
 
 int LargestGridProduct::brute_force(const std::vector<std::vector<int>>& grid, int segment_length) const
@@ -276,6 +225,58 @@ int LargestGridProduct::brute_force(const std::vector<std::vector<int>>& grid, i
 
     return result;
 }
+
+long long LargestProductInSeries::greedy(const std::string& series, int segment_length) const
+{
+    /**
+     * Similar to largest grid product, cacheing fails us when we hit zeroes.
+     * But lets try to cache anyway, and do the back calculation only if we hit a zero.
+     * 
+     * Time O(n) in the best case O(n x segment_length) in worst case
+     * 
+     * Space O(1)
+    */
+    int n = series.size();
+    if (n < segment_length || segment_length == 0) {
+        return 0;
+    }
+
+    long long result = 0;
+    long long current_product = 1;
+
+    for(int i = 0; i < n; ++i)
+    {
+        int value = series[i] - '0';
+        current_product *= value;
+
+        if(i > segment_length - 1)
+        {
+            int excluded_value = series[i - segment_length] - '0';
+            if(excluded_value == 0)
+            {
+                // go back and recomput the values
+                current_product = 1;
+                for(int j = i - segment_length + 1; j <= i; ++j)
+                {
+                    current_product *= (series[j] - '0');
+                }
+            }
+            else
+            {
+                // we need to divide
+                current_product /= excluded_value;
+            }
+        }
+
+        if(i >= segment_length - 1)
+        {
+            result = std::max(result, current_product);
+        }
+    }
+
+    return result;
+}
+
 
 void PythagoreanTriplet::programmatically(int* result, int sum_equals) const
 {
