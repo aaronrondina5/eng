@@ -49,13 +49,6 @@ TEST(HighlyDivisibleTrangular, bruteForce)
     EXPECT_EQ(76576500, algo.brute_force(500));
 }
 
-TEST(LargestProductSeries, testValues)
-{
-    const std::string series = "012340340333";
-    LargestProductInSeries algo;
-    EXPECT_EQ(27, algo.greedy(series, 3));
-}
-
 TEST(LargestGridProduct, bruteForce)
 {
     std::vector<std::vector<int>> grid{
@@ -82,6 +75,29 @@ TEST(LargestGridProduct, bruteForce)
     LargestGridProduct algo;
     int result = algo.brute_force(grid, 4);
     EXPECT_EQ(70600674, result);
+}
+
+TEST(PythagoreanTriplet, answerTheQuestion)
+{
+    int answer[3];
+    PythagoreanTriplet algo;
+    algo.programmatically(answer, 1000);
+    EXPECT_EQ(200, answer[0]);
+    EXPECT_EQ(375, answer[1]);
+    EXPECT_EQ(425, answer[2]);
+}
+
+TEST(SumPrimes, testAnswer)
+{
+    SumPrimes algo;
+    EXPECT_EQ(142913828922, algo.sieve_and_sum(2000000L));
+}
+
+TEST(LargestProductSeries, testValues)
+{
+    const std::string series = "012340340333";
+    LargestProductInSeries algo;
+    EXPECT_EQ(27, algo.greedy(series, 3));
 }
 
 TEST(LargestProductSeries, answer)
@@ -115,16 +131,6 @@ TEST(LargePrime, testAnswer)
 {
     LargePrime algo;
     EXPECT_EQ(104743, algo.with_sieve(10001));
-}
-
-TEST(PythagoreanTriplet, answerTheQuestion)
-{
-    int answer[3];
-    PythagoreanTriplet algo;
-    algo.programmatically(answer, 1000);
-    EXPECT_EQ(200, answer[0]);
-    EXPECT_EQ(375, answer[1]);
-    EXPECT_EQ(425, answer[2]);
 }
 
 TEST(SmallestMultipleTest, various) {
