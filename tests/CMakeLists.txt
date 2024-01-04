@@ -1,8 +1,8 @@
-# arondinaeuler/tests
+# projecteuler/tests
 
 cmake_minimum_required(VERSION 3.12)
 
-project(arondinaengtests)
+project(arondinaprojecteulertests)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -32,7 +32,7 @@ target_link_libraries(${PROJECT_NAME}
   gtest_main
   gtest
   
-  arondinaeng
+  arondinaprojecteuler
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../include/)

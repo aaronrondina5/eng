@@ -111,6 +111,12 @@ TEST(LargestProductSeries, answer)
     EXPECT_EQ(23514624000, algo.greedy(series, 13));
 }
 
+TEST(LargePrime, testAnswer)
+{
+    LargePrime algo;
+    EXPECT_EQ(104743, algo.with_sieve(10001));
+}
+
 TEST(PythagoreanTriplet, answerTheQuestion)
 {
     int answer[3];

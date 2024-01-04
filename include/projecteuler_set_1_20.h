@@ -60,6 +60,15 @@ public:
 };
 
 /**
+ * https://projecteuler.net/problem=7
+*/
+class LargePrime
+{
+public:
+    int with_sieve(int n) const;
+};
+
+/**
  * https://projecteuler.net/problem=6
 */
 class SumSquareDifference
