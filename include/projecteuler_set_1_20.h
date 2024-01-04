@@ -41,6 +41,15 @@ public:
 };
 
 /**
+ * https://projecteuler.net/problem=10
+*/
+class SumPrimes
+{
+public:
+    long sieve_and_sum(long limit) const;
+};
+
+/**
  * https://projecteuler.net/problem=9
 */
 class PythagoreanTriplet
