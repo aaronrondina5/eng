@@ -277,6 +277,77 @@ long long LargestProductInSeries::greedy(const std::string& series, int segment_
     return result;
 }
 
+int LargePrime::with_sieve(int n) const
+{
+    /**
+     * Plan is to build up our sieve so we dont have to consider candidates
+     * that are multiples of primes.
+     * so as we get closer to n, we wont be doing a second n pass each time.
+     * 
+     * The trick is that we dont know how to size our vector initially.
+     * So just pick an estimate, then resize if needed.
+    */
+
+    if(INT_MAX / 10 < n)
+    {
+        throw std::runtime_error("does not support this size n");
+    }
+
+    int try_size = 10 * n;
+    
+    std::vector<bool> is_prime(try_size, true);
+
+    int i = 2;
+    int prime_count = 0;
+    while(i <= try_size)
+    {
+        if(i == try_size)
+        {
+            /**
+             * we have hit our vector limit and we have not been able to find the prime.
+             * We have to restart with new values
+            */
+            if(INT_MAX / 10 < try_size)
+            {
+                throw std::runtime_error("does not support this size n");
+            }
+
+            try_size *= 10;
+            is_prime.assign(try_size, true);
+            i = 2;
+            prime_count = 0;
+        }
+        else
+        {
+            if(is_prime[i])
+            {
+                /**
+                 * Build sieve and check if answer
+                */
+
+                ++prime_count;
+                if(prime_count == n)
+                {
+                    return i;
+                }
+
+                /**
+                 * remove all multiples of i from contention
+                */
+                int j = i + i;
+                while(j < try_size)
+                {
+                    is_prime[j] = false;
+                    j = j + i;
+                }
+            }
+
+            ++i;
+        }
+    }
+
+    return -1;
+}
 
 void PythagoreanTriplet::programmatically(int* result, int sum_equals) const
 {

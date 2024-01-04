@@ -1,2 +1,2 @@
-# eng
-computational engineering problems from euler. will maybe add other problems as well.
+# projecteuler
+computational engineering problems from [Project Euler](https://projecteuler.net)
